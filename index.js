@@ -2,7 +2,7 @@ const crypto = require('crypto')
 const node_ssh = require('node-ssh')
 const YAML = require('yaml')
 
-module.export.warning = function (message, fileName, lineNumber) {
+module.exports.warning = function (message, fileName, lineNumber) {
   const warning = Error(message, fileName, lineNumber)
   warning.logLevel = 'info'
   return warning
