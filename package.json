@@ -1,0 +1,17 @@
+{
+  "name": "bw-cf-utils",
+  "version": "1.0.0",
+  "description": "Utilities for Google Cloud Functions that need to work with BigWaflle",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/storage": "^2.4.3",
+    "memory-streams": "^0.1.3",
+    "node-ssh": "^5.1.2",
+    "yaml": "^1.4.0"
+  }
+}
