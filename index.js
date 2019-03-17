@@ -36,7 +36,7 @@ module.exports.getConfig = function () {
       const { WritableStream } = require('memory-streams')
       
       const Bucket = (new GCS()).bucket(process.env['CONFIG_BUCKET'] || 'org-gapminder-big-waffle-functions')
-      const keyFile = Bucket.file(process.env['CONFIG_FILE'] || `${process.env.FUNCTION_NAME.toLowerCase()}.yaml`)
+      const keyFile = Bucket.file(process.env['CONFIG_FILE'] || `${process.env.FUNCTION_NAME.split('-', 2).shift().toLowerCase()}.yaml`)
       const buffer = new WritableStream()
       
       try {
