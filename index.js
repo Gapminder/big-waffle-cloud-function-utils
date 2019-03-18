@@ -1,4 +1,3 @@
-const crypto = require('crypto')
 const node_ssh = require('node-ssh')
 const YAML = require('yaml')
 
