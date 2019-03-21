@@ -15,13 +15,15 @@ module.exports.info = function (message, fileName, lineNumber) {
 module.exports.datasetName = function (aString) {
   /* 
    * trim the name, we remove ddf-[-], remove gapminder-[-], 
-   * remove big-waffle-, replace open_numbers-[-] with on_
+   * remove big-waffle-, replace open_numbers-[-] with on_,
+   * remove .git
    */
   let name = aString.toLowerCase()
   name = name.replace(/ddf-+/, '')
   name = name.replace(/gapminder-+/, '')
   name = name.replace(/big-*waffle-+/, '')
   name = name.replace(/open_numbers-+/, 'on_')
+  name = name.replace(/\.git$/, '')
   return name  
 }
 
