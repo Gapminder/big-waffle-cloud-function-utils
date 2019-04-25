@@ -68,7 +68,7 @@ module.exports.exec = function (cmd, config, res, content) {
     privateKey: config.privateKey
   })
   .then(shell => {
-    return shell.exec(cmd, {stream: 'both'})
+    return shell.exec(cmd, [], { stream: 'both' })
   })
   .then(outputs => {
     if (res) res.send(content || 'OK')
