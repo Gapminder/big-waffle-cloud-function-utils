@@ -59,7 +59,7 @@ module.exports.getConfig = function () {
   })
 }
   
-module.exports.exec = function (cmd, config, res, content) {
+module.exports.exec = function (cmd, config, res, content, useStdOut = false) {
   // ssh into the big-waffle master and execute the command
   const ssh = new node_ssh()
   return ssh.connect({
@@ -70,8 +70,8 @@ module.exports.exec = function (cmd, config, res, content) {
   .then(shell => {
     shell.exec(cmd)
   })
-  .then(() => {
-    if (res) res.send(content || 'OK')     
+  .then(stdOut => {
+    if (res) res.send((useStdOut && stdOut) ? stdOut : content || 'OK')     
   })
   .catch(err => {
     // TODO: use bunyan for Stackdriver to do the logging
