@@ -68,11 +68,11 @@ module.exports.exec = function (cmd, config, res, content) {
     privateKey: config.privateKey
   })
   .then(shell => {
-    return shell.exec(cmd)
+    return shell.exec(cmd, {stream: 'both'})
   })
-  .then(stdOut => {
+  .then(outputs => {
     if (res) res.send(content || 'OK')
-    return stdOut     
+    return outputs     
   })
   .catch(err => {
     // TODO: use bunyan for Stackdriver to do the logging
