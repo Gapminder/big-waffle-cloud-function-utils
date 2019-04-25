@@ -68,7 +68,7 @@ module.exports.exec = function (cmd, config, res, content) {
     privateKey: config.privateKey
   })
   .then(shell => {
-    shell.exec(cmd)
+    return shell.exec(cmd)
   })
   .then(stdOut => {
     if (res) res.send(content || 'OK')
