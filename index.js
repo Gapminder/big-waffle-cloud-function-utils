@@ -1,4 +1,4 @@
-const node_ssh = require('node-ssh')
+const sshExec = require('ssh-exec')
 const YAML = require('yaml')
 
 module.exports.warning = function (message, fileName, lineNumber) {
@@ -59,29 +59,28 @@ module.exports.getConfig = function () {
   })
 }
   
-module.exports.exec = function (cmd, config, res, content) {
-  // ssh into the big-waffle master and execute the command
-  const ssh = new node_ssh()
-  return ssh.connect({
+module.exports.exec = function (cmd, config, res, content = 'OK') {
+  /*
+  * Return a Promise that will ssh into the big-waffle master 
+  * and execute the command and resolve to an object with the
+  * stdout and stderror of the server.
+  * 
+  * If a (http) res(ponse) is provided the provided content will
+  * be send to the response.
+  */
+  const sshConfig = {
+    user: config.user || process.env.FUNCTION_NAME.toLowerCase(),
     host: config.bwMaster,
-    username: config.user || process.env.FUNCTION_NAME.toLowerCase(),
-    privateKey: config.privateKey
-  })
-  .then(shell => {
-    return shell.exec(cmd, [], { stream: 'both' })
-  })
-  .then(outputs => {
-    if (res) res.send(content || 'OK')
-    return outputs     
-  })
-  .catch(err => {
-    // TODO: use bunyan for Stackdriver to do the logging
-    if ((err.logLevel || 'error') == 'error') {
-      console.error(err)
-    } else {
-      console.log(err.message)
-    }
-    if (res) res.send(content || 'OK')
-    return err    
+    key: config.privateKey  
+  }
+  return new Promise((resolve, reject) => {
+    exec('./bin/bw list', sshConfig, function (err, stdout, stderr) {
+      if (res) res.send(content)
+      if (err) {
+        reject(err)
+      } else {
+        resolve({ stdout, stderr })
+      }
+    })  
   })
 }
