@@ -74,7 +74,7 @@ module.exports.exec = function (cmd, config, res, content = 'OK') {
     key: config.privateKey  
   }
   return new Promise((resolve, reject) => {
-    exec('./bin/bw list', sshConfig, function (err, stdout, stderr) {
+    sshExec('./bin/bw list', sshConfig, function (err, stdout, stderr) {
       if (res) res.send(content)
       if (err) {
         reject(err)
