@@ -28,6 +28,7 @@ module.exports.datasetName = function (aString) {
 }
 
 let config
+
 module.exports.getConfig = function () {
   return new Promise((resolve, reject) => {
     if (config) {
@@ -74,7 +75,7 @@ module.exports.exec = function (cmd, config, res, content = 'OK') {
     key: config.privateKey  
   }
   return new Promise((resolve, reject) => {
-    sshExec('./bin/bw list', sshConfig, function (err, stdout, stderr) {
+    sshExec(cmd, sshConfig, function (err, stdout, stderr) {
       if (res) res.send(content)
       if (err) {
         reject(err)
